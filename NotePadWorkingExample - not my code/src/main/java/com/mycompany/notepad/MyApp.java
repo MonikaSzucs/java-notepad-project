@@ -8,6 +8,10 @@ package com.mycompany.notepad;
  *
  * @author mszuc
  */
-public class EditableNotepadEx {
+public class MyApp {
+
+    public static void main(String [] args){
     
+    NotePad notp=new NotePad();
+}
 }
