@@ -23,7 +23,7 @@ public class NotePad extends JFrame implements ActionListener, WindowListener{
     {
         Font fnt = new Font("Arial", Font.PLAIN,15);
         Container con - getContentPane();
-        JMenuBar jab = new JMenuBar();
+        JMenuBar jmb = new JMenuBar();
         JMenu jmfile = new JMenu("File");
         JMenu jmedit = new JMenu("Edit");
         JMenu jmhelp = new JMenu("Help");
@@ -33,5 +33,92 @@ public class NotePad extends JFrame implements ActionListener, WindowListener{
         sbrText.setVericalScrollBarPolicy(JScrollPane.VERTICAL_SCROLL_ALWAYS);
         sbrText.setVisible(true);
         
+        jta.setFont(fnt);
+        jta.setLineWrap(true);
+        jta.setWrapStyleWord(true);
+        
+        con.add(sbrText);
+        
+        createMenuItem(jmfile,"New");
+        createMenuItem(jmfile,"Open");
+        createMenuItem(jmfile,"Save");
+        jmfile.addSeparator();
+        createMenuItem(jmfile,"Exit");
+        
+        createMenuItem(jmedit,"Cut");
+        createMenuItem(jmedit,"Copy");
+        createMenuItem(jmedit,"Paste");
+        
+        createMenuItem(jmhelp,"About Notepad");
+        
+        jmb.add(jmfile);
+        jmb.add(jmedit);
+        jmb.add(jmhelp);
+        
+        setJMenuBar(jmb);
+        
+        setIconImage(Toolkit.getDefaultToolkit().getImage("notepad.gif"));
+        setSize(500,500);
+        setTitle("Untitled.txt");
+        setVisible(true);
+        
+        
+    }
+    
+    public void createMenuItem(Jmenu jm, String text)
+    {
+        JMenuItem jmi = new JMenuItem(txt);
+        jmi.addActionListener(this);
+        jmi.add(jmi);
+    }
+    
+    public void actionPerformed(ActionEvent e)
+    {
+        JFileChooser jfc = new JFileChooser();
+        if(e.getActionCommand().equals("New"))
+        {
+            this.setTitle("Untitled.txt-Notepad");
+            jta.setText("");
+            fnameContainer = null;
+        } else if(e.getActionCommand().equals("Open"))
+        {
+            int ret = jfc.showDialog(null,"Open");
+            if(ret==JFileChooser.APPROVE_OPTION)
+            {
+                try
+                {
+                    File fyl = jfc.getSelectedFile();
+                    OpenFile(fyl.getAbsolutePath());
+                    this.setTitle(fyl.getName() + " - Notepad ");
+                    fnameContainer = fyl;
+                } catch (IOException e)
+                {
+                  
+                }
+            }
+        } else if(e.getActionCommand().equals("Save"))
+        {
+            if(fnameContainer != null)
+            {
+                jfc.setCurrentDirectory(fnameContainer);
+                jfc.setSelectedFile(fnameContainer);
+            }
+        } else
+        {
+            jfc.setSelectedFile(new File("Untitled.txt"));
+                    
+        }
+        
+        int ret = jfc.showDialog(null);
+        if(ret == JFileChooser.APPROVE_OPTION)
+        {
+            try 
+            {
+                File fyl = jfc.getSelectedFile();
+                SaveFile(fyl.getAbsolutePath());
+                this.setTitle(tyl.getName() + " - Notepad");
+                fnameContainer = fyl
+            }
+        }
     }
 }
